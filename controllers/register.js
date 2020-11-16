@@ -5,6 +5,7 @@ const handleRegister = (req, res, bcrypt, db) => {
     }
     const hash = bcrypt.hashSync(password);
     db.transaction(trx => {
+        console.log(trx)
         trx.insert({
             hash: hash,
             email: email
@@ -15,12 +16,12 @@ const handleRegister = (req, res, bcrypt, db) => {
             return trx('users')
                 .returning('*')
                 .insert({
-                    email: loginEmail[0],
+                    email: loginEmail ? loginEmail[0] : "jorge@gmail.com",
                     name: name,
                     joined: new Date()
                 })
                 .then(user => {
-                    res.json(user[0]);
+                    return res.json(user[0]);
                 })
         })
         .then(trx.commit)
