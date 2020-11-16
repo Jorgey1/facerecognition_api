@@ -18,7 +18,7 @@ const db = knex({
 });
   
 
-const app = express();
+const app = express();pg:
 app.use(cors())
 app.use(bodyParser.json())
 

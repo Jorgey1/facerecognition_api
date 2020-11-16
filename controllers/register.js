@@ -1,4 +1,7 @@
 const handleRegister = (req, res, bcrypt, db) => {
+    if(!db || typeof db.transaction !== "function") {
+        return res.status(200).json("fuck me");
+    }
     const {email, name, password} = req.body;
     if (!email || !name || !password) {
         return res.status(400).json('incorrect form submission')
@@ -27,7 +30,7 @@ const handleRegister = (req, res, bcrypt, db) => {
         .then(trx.commit)
         .catch(trx.rollback)
     })
-    .catch(err => res.status(400).json('Unable to Register'))
+    .catch(err => res.status(4500).json('Unable to Register'))
 }
 
 module.exports = {
