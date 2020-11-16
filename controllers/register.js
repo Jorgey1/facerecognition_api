@@ -24,13 +24,17 @@ const handleRegister = (req, res, bcrypt, db) => {
                     joined: new Date()
                 })
                 .then(user => {
-                    return res.json(user[0]);
+                    res.json(user[0]);
                 })
         })
-        .then(trx.commit)
-        .catch(trx.rollback)
+        .then(() => {
+            return trx.commit
+        }) 
+        .catch((err) => {
+            console.log(err);
+           return trx.rollback }) 
     })
-    .catch(err => res.status(4500).json('Unable to Register'))
+    .catch(err => res.status(400).json('Unable to Register'))
 }
 
 module.exports = {
